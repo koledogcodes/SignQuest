@@ -1,0 +1,25 @@
+name: SignQuests
+main: me.koledogcodes.signquests.SignQuest
+version: 1.7
+commands:
+  quest:
+    description: The general command for SignQuests
+    aliases: [q]
+  setquestmsg:
+    description: Sets the quest messages
+    aliases: [sqm]
+  setredeemmsg:
+    description: Sets the quest reward messages
+    aliases: [srm]
+  setquestobj:
+    description: Sets or deletes quest objectives
+    aliases: [sqo]
+  setsignquest:
+    description: Allows a sign to be used as a quest or redeem sign
+    aliases: [ssq]
+  setquestdelay:
+    description: Sets the quest delay upon quest completion.
+    aliases: [sqd]
+  setquestreward:
+    description: Sets the rewards upon quest completion
+    aliases: [sqr]
