@@ -58,7 +58,6 @@ public class SignQuest extends JavaPlugin {
 		new ObjectiveDataFile(this);
 		handler = new SignQuestHandler(this);
 		ChatUtili.messagePrefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefix"));
-		handler.messageDelay = getConfig().getInt("message-delay");
 		
 		//Events
 		Bukkit.getServer().getPluginManager().registerEvents(new SignQuestSetupEvents (this), this);
@@ -165,11 +164,5 @@ public class SignQuest extends JavaPlugin {
 			getConfig().set("prefix", "&8&lQuests &e&l> &7");
 			saveConfig();
 		}
-		
-		if (getConfig().getString("message-delay") == null){
-			getConfig().set("message-delay", 500);
-			saveConfig();
-		}
-		
 	}
 }

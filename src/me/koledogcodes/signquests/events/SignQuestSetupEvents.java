@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -14,13 +13,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import me.koledogcodes.signquests.SignQuest;
 import me.koledogcodes.signquests.api.events.PlayerInteractSignEvent;
-import me.koledogcodes.signquests.configs.ObjectiveDataFile;
 import me.koledogcodes.signquests.configs.QuestDataFile;
 import me.koledogcodes.signquests.handler.ChatUtili;
 import me.koledogcodes.signquests.handler.SignQuestHandler;
@@ -83,31 +80,6 @@ public class SignQuestSetupEvents implements Listener {
 		if (e.getClickedBlock().getState() == null){ return; }
 		if (e.getClickedBlock().getState() instanceof Sign == false){ return; }
 		Bukkit.getServer().getPluginManager().callEvent(new PlayerInteractSignEvent(player, ((Sign) e.getClickedBlock().getState())));
-	}
-	
-	//TODO Player Chat Quest Objective [PlayerInteractSignEvent]
-	@EventHandler
-	public void onPlayerQuestObjChat(AsyncPlayerChatEvent e){
-		Player player = (Player) e.getPlayer();
-		if (SignQuestHandler.eventCommandBypass.containsKey(player) == false){ return; }
-		if (SignQuestHandler.eventCommandBypass.get(player).split("\\:")[0].equalsIgnoreCase("TASK-CHAT") == false){ return; }
-		e.setCancelled(true);
-		handler.questFile.put(player, new QuestDataFile(SignQuestHandler.eventCommandBypass.get(player).split("\\:")[1].toString().toLowerCase()));
-		
-		if (handler.questFile.get(player).getConfig().getString("Objective.say") != null){
-		ObjectiveDataFile.getCustomConfig().set(handler.questFile.get(player).getConfig().getString("Objective.say"), null);
-		ObjectiveDataFile.saveCustomConfig();
-		handler.questFile.get(player).getConfig().set("Objective.say", null);
-		handler.questFile.get(player).saveConfig();
-		}
-		
-		handler.questFile.get(player).getConfig().set("Objective.say", ChatColor.stripColor(e.getMessage()).toLowerCase());
-		handler.questFile.get(player).saveConfig();
-		ObjectiveDataFile.getCustomConfig().set("(chat) " + ChatColor.stripColor(e.getMessage()).toLowerCase(), SignQuestHandler.eventCommandBypass.get(player).split("\\:")[1]);
-		ObjectiveDataFile.saveCustomConfig();
-		
-		ChatUtili.sendTranslatedMessage(player, "&7Say objective set: &e'" + ChatColor.stripColor(e.getMessage()) + "'.");
-		SignQuestHandler.eventCommandBypass.remove(player);
 	}
 	
 }

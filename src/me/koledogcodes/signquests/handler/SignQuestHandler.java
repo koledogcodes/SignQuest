@@ -20,7 +20,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import me.koledogcodes.signquests.SignQuest;
 import me.koledogcodes.signquests.configs.ConfigFile;
 import me.koledogcodes.signquests.configs.DelayDataFile;
-import me.koledogcodes.signquests.configs.ObjectiveDataFile;
 import me.koledogcodes.signquests.configs.PlayerDataFile;
 import me.koledogcodes.signquests.configs.QuestDataFile;
 import me.koledogcodes.signquests.timer.SignQuestTimer;
@@ -250,7 +249,7 @@ public class SignQuestHandler {
 		questRewardCommands.put(player, questFile.get(player).getConfig().getStringList("reward-commands"));
 		
 		if (line > questRewardCommands.get(player).size() || line < 0){
-			ChatUtili.sendTranslatedMessage(player, "&cThat message line does not exist.");
+			ChatUtili.sendTranslatedMessage(player, "&cThat command line does not exist.");
 			return;
 		}
 		
@@ -308,12 +307,6 @@ public class SignQuestHandler {
 		questMessages.put(player, questFile.get(player).getConfig().getStringList("quest-messages"));
 		for (i.put(player, 0); i.get(player) < questMessages.get(player).size(); i.put(player, i.get(player) + 1)){
 			player.sendMessage(questMessages.get(player).get(i.get(player)).replaceAll("<player>", player.getName()));
-			
-			try {
-				Thread.sleep(messageDelay);
-			} 
-			catch (InterruptedException e) {
-			}
 		}
 	}
 	
@@ -323,12 +316,6 @@ public class SignQuestHandler {
 		questMessages.put(player, questFile.get(player).getConfig().getStringList("redeem-messages"));
 		for (i.put(player, 0); i.get(player) < questMessages.get(player).size(); i.put(player, i.get(player) + 1)){
 			player.sendMessage(questMessages.get(player).get(i.get(player)).replaceAll("<player>", player.getName()));
-			
-			try {
-				Thread.sleep(messageDelay);
-			} 
-			catch (InterruptedException e) {
-			}
 		}
 	}
 	
@@ -343,15 +330,6 @@ public class SignQuestHandler {
 		if (playerInQuestDelay(player, quest)){
 			messageDelayTime(player, time);
 			return false;
-		}
-		
-		//Quest [REACH] Objective
-		if (questFile.get(player).getConfig().getString("Objective.reach") != null){
-		if (dataFile.get(player).getConfig().getString(quest + ".objective.reach") == null){
-			ChatUtili.sendTranslatedMessage(player, "&cYou must reach location: &e" + questFile.get(player).getConfig().getString("Objective.reach"));
-			questCompleteCheck.get(player).add(false);
-			return false;
-		}
 		}
 		
 		//Quest [ITEMS] Objective
@@ -370,24 +348,6 @@ public class SignQuestHandler {
 		}
 		}
 		}
-		}
-		}
-		
-		//Quest [SAY] Objective
-		if (questFile.get(player).getConfig().getString("Objective.say") != null){
-		if (dataFile.get(player).getConfig().getString(quest + ".objective.say") == null){
-			ChatUtili.sendTranslatedMessage(player, "&cYou must say the following in chat: &e" + questFile.get(player).getConfig().getString("Objective.say"));
-			questCompleteCheck.get(player).add(false);
-			return false;
-		}
-		}
-		
-		//Quest [KILL_MOBS] Objective
-		if (questFile.get(player).getConfig().getString("Objective.kill") != null){
-		if (dataFile.get(player).getConfig().getString(quest + ".objective.kill") == null){
-			ChatUtili.sendTranslatedMessage(player, "&7You must kill &e" + (questFile.get(player).getConfig().getInt("Objective.kill.number-of-kills") - dataFile.get(player).getConfig().getInt(ObjectiveDataFile.getCustomConfig().getString("(kill) " + questFile.get(player).getConfig().getString("Objective.kill.type")) + ".objective.mob-kills")) + "x " + questFile.get(player).getConfig().getString("Objective.kill.type").toLowerCase() + "(s).");
-			questCompleteCheck.get(player).add(false);
-			return false;
 		}
 		}
 		
